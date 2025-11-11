@@ -1,0 +1,983 @@
+LIBRARY MANAGEMENT//
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    vector<int> bookIDs;
+    vector<string> bookTitles;
+    vector<string> bookAuthors;
+    vector<bool> isIssued;
+
+    int choice;
+
+    do {
+        cout << "\n==========  LIBRARY MANAGEMENT SYSTEM ==========\n";
+        cout << "1. Add Book\n";
+        cout << "2. Display All Books\n";
+        cout << "3. Search Book by Title\n";
+        cout << "4. Issue Book\n";
+        cout << "5. Return Book\n";
+        cout << "6. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        if (choice == 1) {
+            int id;
+            string title, author;
+            cin.ignore();
+
+            cout << "Enter Book ID: ";
+            cin >> id;
+            cin.ignore();
+
+            cout << "Enter Book Title: ";
+            getline(cin, title);
+
+            cout << "Enter Book Author: ";
+            getline(cin, author);
+
+            bookIDs.push_back(id);
+            bookTitles.push_back(title);
+            bookAuthors.push_back(author);
+            isIssued.push_back(false);
+
+            cout << "\n Book added successfully!\n";
+        }
+
+        else if (choice == 2) {
+            if (bookIDs.empty()) {
+                cout << "\n No books in the library.\n";
+            } else {
+                cout << "\n List of Books:\n";
+                cout << "------------------------------------------------------\n";
+                cout << "ID\tTitle\t\tAuthor\t\tStatus\n";
+                cout << "------------------------------------------------------\n";
+
+                for (size_t i = 0; i < bookIDs.size(); i++) {
+                    cout << bookIDs[i] << "\t" << bookTitles[i] << "\t\t"
+                         << bookAuthors[i] << "\t\t"
+                         << (isIssued[i] ? "Issued" : "Available") << "\n";
+                }
+                cout << "------------------------------------------------------\n";
+            }
+        }
+
+        else if (choice == 3) {
+            cin.ignore();
+            string title;
+            cout << "Enter title to search: ";
+            getline(cin, title);
+
+            auto it = find(bookTitles.begin(), bookTitles.end(), title);
+            if (it != bookTitles.end()) {
+                int index = it - bookTitles.begin();
+                cout << "\n Book Found:\n";
+                cout << "ID: " << bookIDs[index] << "\n";
+                cout << "Title: " << bookTitles[index] << "\n";
+                cout << "Author: " << bookAuthors[index] << "\n";
+                cout << "Status: " << (isIssued[index] ? "Issued" : "Available") << "\n";
+            } else {
+                cout << "\n Book not found.\n";
+            }
+        }
+
+        else if (choice == 4) {
+            int id;
+            cout << "Enter Book ID to issue: ";
+            cin >> id;
+
+            auto it = find(bookIDs.begin(), bookIDs.end(), id);
+            if (it != bookIDs.end()) {
+                int index = it - bookIDs.begin();
+                if (isIssued[index]) {
+                    cout << "\n Book already issued.\n";
+                } else {
+                    isIssued[index] = true;
+                    cout << "\n Book issued successfully.\n";
+                }
+            } else {
+                cout << "\n Book not found.\n";
+            }
+        }
+
+        else if (choice == 5) {
+            int id;
+            cout << "Enter Book ID to return: ";
+            cin >> id;
+
+            auto it = find(bookIDs.begin(), bookIDs.end(), id);
+            if (it != bookIDs.end()) {
+                int index = it - bookIDs.begin();
+                if (!isIssued[index]) {
+                    cout << "\n Book is not issued yet.\n";
+                } else {
+                    isIssued[index] = false;
+                    cout << "\n Book returned successfully.\n";
+                }
+            } else {
+                cout << "\n Book not found.\n";
+            }
+        }
+
+        else if (choice == 6) {
+            cout << "\n Exiting Library System. Goodbye!\n";
+        }
+
+        else {
+            cout << "\n Invalid choice. Try again.\n";
+        }
+
+    } while (choice != 6);
+
+    return 0;
+}
+
+
+
+2]E-COMMERCE SYSTEM
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    vector<int> productIDs;
+    vector<string> productNames;
+    vector<float> productPrices;
+    vector<int> productStock;
+
+    vector<int> cartIDs;
+    vector<int> cartQty;
+    float totalBill = 0.0;
+
+    int choice;
+
+    do {
+        cout << "\n==========  SIMPLE E-COMMERCE SYSTEM ==========\n";
+        cout << "1. Add Product\n";
+        cout << "2. Display All Products\n";
+        cout << "3. Search Product by Name\n";
+        cout << "4. Buy Product\n";
+        cout << "5. View Cart & Bill\n";
+        cout << "6. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        if (choice == 1) {
+            int id, stock;
+            string name;
+            float price;
+            cin.ignore();
+
+            cout << "Enter Product ID: ";
+            cin >> id;
+            cin.ignore();
+
+            cout << "Enter Product Name: ";
+            getline(cin, name);
+
+            cout << "Enter Product Price: ";
+            cin >> price;
+
+            cout << "Enter Stock Quantity: ";
+            cin >> stock;
+
+            productIDs.push_back(id);
+            productNames.push_back(name);
+            productPrices.push_back(price);
+            productStock.push_back(stock);
+
+            cout << "\n Product added successfully!\n";
+        }
+
+        else if (choice == 2) {
+            if (productIDs.empty()) {
+                cout << "\n No products available.\n";
+            } else {
+                cout << "\n🛒 Available Products:\n";
+                cout << "---------------------------------------------------------\n";
+                cout << "ID\tName\t\tPrice\t\tStock\n";
+                cout << "---------------------------------------------------------\n";
+
+                for (size_t i = 0; i < productIDs.size(); i++) {
+                    cout << productIDs[i] << "\t" << productNames[i]
+                         << "\t\t" << productPrices[i]
+                         << "\t\t" << productStock[i] << "\n";
+                }
+                cout << "---------------------------------------------------------\n";
+            }
+        }
+
+        else if (choice == 3) {
+            cin.ignore();
+            string name;
+            cout << "Enter product name to search: ";
+            getline(cin, name);
+
+            auto it = find(productNames.begin(), productNames.end(), name);
+            if (it != productNames.end()) {
+                int index = it - productNames.begin();
+                cout << "\n Product Found:\n";
+                cout << "ID: " << productIDs[index]
+                     << "\nName: " << productNames[index]
+                     << "\nPrice: " << productPrices[index]
+                     << "\nStock: " << productStock[index] << "\n";
+            } else {
+                cout << "\n Product not found.\n";
+            }
+        }
+
+        else if (choice == 4) {
+            int id, qty;
+            cout << "Enter Product ID to Buy: ";
+            cin >> id;
+
+            auto it = find(productIDs.begin(), productIDs.end(), id);
+            if (it != productIDs.end()) {
+                int index = it - productIDs.begin();
+
+                cout << "Enter Quantity: ";
+                cin >> qty;
+
+                if (qty <= 0) {
+                    cout << "\n Invalid quantity.\n";
+                } else if (qty > productStock[index]) {
+                    cout << "\n Not enough stock available.\n";
+                } else {
+                    productStock[index] -= qty;
+                    cartIDs.push_back(id);
+                    cartQty.push_back(qty);
+                    totalBill += productPrices[index] * qty;
+                    cout << "\n Added to cart successfully!\n";
+                }
+            } else {
+                cout << "\n Product not found.\n";
+            }
+        }
+
+        else if (choice == 5) {
+            if (cartIDs.empty()) {
+                cout << "\n Cart is empty.\n";
+            } else {
+                cout << "\n CART DETAILS:\n";
+                cout << "---------------------------------------------------------\n";
+                cout << "ID\tName\t\tQty\tPrice\n";
+                cout << "---------------------------------------------------------\n";
+
+                for (size_t i = 0; i < cartIDs.size(); i++) {
+                    int index = find(productIDs.begin(), productIDs.end(), cartIDs[i]) - productIDs.begin();
+                    cout << cartIDs[i] << "\t" << productNames[index]
+                         << "\t\t" << cartQty[i]
+                         << "\t" << productPrices[index] * cartQty[i] << "\n";
+                }
+
+                cout << "--------------------------------------------------------\n";
+                cout << " Total Bill: " << totalBill << " ₹\n";
+                cout << "---------------------------------------------------------\n";
+            }
+        }
+
+        else if (choice == 6) {
+            cout << "\n Thank you for shopping with us!\n";
+        }
+
+        else {
+            cout << "\n Invalid choice! Try again.\n";
+        }
+
+    } while (choice != 6);
+
+    return 0;
+}
+
+
+3]SORTING EMPLOYEE SALARY
+
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+void SelectionSort(vector<int> &nums , int size){
+    for(int i=0;i<nums.size()-1;i++){
+        int MinIndex = i;
+        for(int j=i+1;j<nums.size();j++){
+            if(nums[j]<nums[MinIndex]){
+                MinIndex=j;
+            }
+        } 
+        swap(nums[i],nums[MinIndex]);
+    }
+}
+
+void Bubblesort(vector<int> &nums,int size){
+    for(int i=0;i<nums.size()-1;i++){
+        for(int j=0;j<nums.size()-i-1;j++){
+            if(nums[j]>nums[j+1]){
+                swap(nums[j],nums[j+1]);
+            }
+        }
+    }
+}
+
+void HighestSalaries(vector<int> &nums,int size){
+    sort(nums.begin(),nums.end(),greater<int>());
+    cout<<"5 Highest Salaries:"<<endl;
+    for(int i=0; i < min(5, (int)nums.size()); i++){
+        cout<<nums[i]<<"\t";
+    }
+    cout<<endl;
+}
+
+
+
+int main(){
+    int NumberOfEmployees;
+    cout<<"Enter Number of Employees:"<<endl;
+    cin>>NumberOfEmployees;
+    int size = NumberOfEmployees;
+
+    
+    int Salary;
+    vector<int> nums(size);
+    cout<<"Enter the salary of employee:"<<endl;
+    for(int i=0;i<size;i++){
+    cin>>nums[i];
+    }
+    cout<<endl;
+
+    int choice;
+    cout<<"Choose Sorting Algorithm:"<<endl;
+    cout<<"1.Selection Sort"<<endl;
+    cout<<"2.Bubble Sort"<<endl;
+    cout<<endl;
+    cout<<"Enter your choice(1 or 2)"<<endl;
+    cin>>choice;
+    cout<<endl;
+
+    if(choice==1){
+        cout<<"Salaries sorted using selection sort:"<<endl;
+        SelectionSort(nums,size);
+        cout<<endl;
+    }
+    // cout<<endl;
+    else{
+        cout<<"Salaries sorted using bubble sort:"<<endl;
+        Bubblesort(nums,size);
+    }
+    cout<<endl;
+
+    for(int num:nums){
+        cout<<num<<"\t";
+    }
+    cout<<endl;
+    HighestSalaries(nums,size);
+
+    return 0;
+    }
+
+
+
+4] UNDO-REDO STACK
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+
+int main() {
+    stack<string> UndoStack;
+    stack<string> RedoStack;
+    string Document = "";
+    string NewText;
+    int choice;
+
+    cout << "------------- UNDO REDO SYSTEM --------------\n";
+    cout << "1. Make Change\n";
+    cout << "2. Undo\n";
+    cout << "3. Redo\n";
+    cout << "4. Display\n";
+    cout << "5. Exit\n\n";
+
+    while (true) {
+        cout << "Enter Your Choice: ";
+        cin >> choice;
+        cin.ignore(); // to handle newline after number input
+        cout << endl;
+
+        switch (choice) {
+            case 1: {
+                cout << "Enter new text: ";
+                getline(cin, NewText);
+
+                UndoStack.push(Document);   // save current state
+                Document = NewText;         // apply new change
+
+                // clear redo stack (redo invalid after a new change)
+                while (!RedoStack.empty())
+                    RedoStack.pop();
+
+                cout << " Change applied.\n\n";
+                break;
+            }
+
+            case 2: {
+                if (UndoStack.empty()) {
+                    cout << " Nothing to undo.\n\n";
+                } else {
+                    RedoStack.push(Document);    // save for redo
+                    Document = UndoStack.top();  // revert
+                    UndoStack.pop();
+                    cout << " Undo successful.\n\n";
+                }
+                break;
+            }
+
+            case 3: {
+                if (RedoStack.empty()) {
+                    cout << " Nothing to redo.\n\n";
+                } else {
+                    UndoStack.push(Document);    // save for undo
+                    Document = RedoStack.top();  // reapply
+                    RedoStack.pop();
+                    cout << " Redo successful.\n\n";
+                }
+                break;
+            }
+
+            case 4: {
+                cout << " Current Document: \"" << Document << "\"\n\n";
+                break;
+            }
+
+            case 5: {
+                cout << " Successfully Exited.\n";
+                return 0;   // exit program
+            }
+
+            default:
+                cout << " Invalid choice. Please try again.\n\n";
+        }
+    }
+
+    return 0;
+}
+
+
+5]EVENT PROCESSING QUEUE
+#include <iostream>
+#include <queue>
+#include <string>
+using namespace std;
+
+int main() {
+    queue<string> eventQueue;
+    int choice;
+    string event;
+
+    do {
+        cout << "\n==========  EVENT PROCESSING SYSTEM ==========\n";
+        cout << "1. Add Event\n";
+        cout << "2. Process Next Event\n";
+        cout << "3. Display All Pending Events\n";
+        cout << "4. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        cin.ignore();
+
+        if (choice == 1) {
+            cout << "Enter Event Description: ";
+            getline(cin, event);
+            eventQueue.push(event);
+            cout << "\nEvent added to queue.\n";
+        }
+
+        else if (choice == 2) {
+            if (eventQueue.empty()) {
+                cout << "\n No events to process.\n";
+            } else {
+                cout << "\n⚙️ Processing Event: " << eventQueue.front() << "\n";
+                eventQueue.pop();
+                cout << " Event processed successfully.\n";
+            }
+        }
+
+        else if (choice == 3) {
+            if (eventQueue.empty()) {
+                cout << "\n No pending events.\n";
+            } else {
+                cout << "\n Pending Events:\n";
+                queue<string> temp = eventQueue; // Copy to preserve original queue
+                while (!temp.empty()) {
+                    cout << "- " << temp.front() << "\n";
+                    temp.pop();
+                }
+            }
+        }
+
+        else if (choice == 4) {
+            cout << "\nExiting Event Processing System. Goodbye!\n";
+        }
+
+        else {
+            cout << "\n Invalid choice. Try again.\n";
+        }
+
+    } while (choice != 4);
+
+    return 0;
+}
+
+
+
+
+6]HASH TABLE 
+#include <iostream>
+#include <vector>
+#include <list>
+using namespace std;
+
+const int TABLE_SIZE = 10;  // size of hash table
+
+// Hash function (simple modulo)
+int hashFunction(int key) {
+    return key % TABLE_SIZE;
+}
+
+int main() {
+    vector<list<int>> hashTable(TABLE_SIZE);  // array of lists (for chaining)
+    int choice, key;
+
+    do {
+        cout << "\n==========  HASH TABLE IMPLEMENTATION ==========\n";
+        cout << "1. Insert Key\n";
+        cout << "2. Search Key\n";
+        cout << "3. Delete Key\n";
+        cout << "4. Display Hash Table\n";
+        cout << "5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        if (choice == 1) {
+            cout << "Enter key to insert: ";
+            cin >> key;
+            int index = hashFunction(key);
+            hashTable[index].push_back(key);
+            cout << " Key inserted at index " << index << endl;
+        }
+
+        else if (choice == 2) {
+            cout << "Enter key to search: ";
+            cin >> key;
+            int index = hashFunction(key);
+            bool found = false;
+            for (int val : hashTable[index]) {
+                if (val == key) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found)
+                cout << " Key " << key << " found at index " << index << endl;
+            else
+                cout << " Key not found.\n";
+        }
+
+        else if (choice == 3) {
+            cout << "Enter key to delete: ";
+            cin >> key;
+            int index = hashFunction(key);
+            bool deleted = false;
+
+            for (auto it = hashTable[index].begin(); it != hashTable[index].end(); ++it) {
+                if (*it == key) {
+                    hashTable[index].erase(it);
+                    deleted = true;
+                    cout << "🗑️ Key deleted successfully.\n";
+                    break;
+                }
+            }
+            if (!deleted)
+                cout << " Key not found.\n";
+        }
+
+        else if (choice == 4) {
+            cout << "\n Hash Table Contents:\n";
+            for (int i = 0; i < TABLE_SIZE; i++) {
+                cout << "[" << i << "] -> ";
+                for (int val : hashTable[i]) {
+                    cout << val << " -> ";
+                }
+                cout << "NULL\n";
+            }
+        }
+
+        else if (choice == 5) {
+            cout << "\n Exiting Hash Table Program. Goodbye!\n";
+        }
+
+        else {
+            cout << "\n Invalid choice! Try again.\n";
+        }
+
+    } while (choice != 5);
+
+    return 0;
+}
+
+
+
+
+7]HASH TABLE USING DIVISION AND LINEAR PROBING
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+const int TABLE_SIZE = 10;
+const int EMPTY = -1;
+
+// Hash function using division method
+int hashFunction(int key) {
+    return key % TABLE_SIZE;
+}
+
+int main() {
+    vector<int> hashTable(TABLE_SIZE, EMPTY);
+    int choice, key;
+
+    do {
+        cout << "\n==========  HASH TABLE (LINEAR PROBING) ==========\n";
+        cout << "1. Insert Key\n";
+        cout << "2. Search Key\n";
+        cout << "3. Delete Key\n";
+        cout << "4. Display Table\n";
+        cout << "5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        if (choice == 1) {
+            cout << "Enter key to insert: ";
+            cin >> key;
+
+            int index = hashFunction(key);
+            int originalIndex = index;
+            bool inserted = false;
+
+            // Linear probing to find next empty slot
+            for (int i = 0; i < TABLE_SIZE; i++) {
+                int newIndex = (index + i) % TABLE_SIZE;
+                if (hashTable[newIndex] == EMPTY) {
+                    hashTable[newIndex] = key;
+                    cout << " Key inserted at index " << newIndex << endl;
+                    inserted = true;
+                    break;
+                }
+            }
+
+            if (!inserted)
+                cout << " Hash table is full! Cannot insert.\n";
+        }
+
+        else if (choice == 2) {
+            cout << "Enter key to search: ";
+            cin >> key;
+
+            int index = hashFunction(key);
+            bool found = false;
+
+            for (int i = 0; i < TABLE_SIZE; i++) {
+                int newIndex = (index + i) % TABLE_SIZE;
+                if (hashTable[newIndex] == key) {
+                    cout << " Key found at index " << newIndex << endl;
+                    found = true;
+                    break;
+                } else if (hashTable[newIndex] == EMPTY) {
+                    break; // stop searching when empty slot encountered
+                }
+            }
+
+            if (!found)
+                cout << " Key not found.\n";
+        }
+
+        else if (choice == 3) {
+            cout << "Enter key to delete: ";
+            cin >> key;
+
+            int index = hashFunction(key);
+            bool deleted = false;
+
+            for (int i = 0; i < TABLE_SIZE; i++) {
+                int newIndex = (index + i) % TABLE_SIZE;
+                if (hashTable[newIndex] == key) {
+                    hashTable[newIndex] = EMPTY;
+                    cout << " Key deleted from index " << newIndex << endl;
+                    deleted = true;
+                    break;
+                } else if (hashTable[newIndex] == EMPTY) {
+                    break;
+                }
+            }
+
+            if (!deleted)
+                cout << " Key not found.\n";
+        }
+
+        else if (choice == 4) {
+            cout << "\n Hash Table Contents:\n";
+            for (int i = 0; i < TABLE_SIZE; i++) {
+                if (hashTable[i] == EMPTY)
+                    cout << "[" << i << "] -> EMPTY\n";
+                else
+                    cout << "[" << i << "] -> " << hashTable[i] << "\n";
+            }
+        }
+
+        else if (choice == 5) {
+            cout << "\n Exiting Hash Table Program. Goodbye!\n";
+        }
+
+        else {
+            cout << "\n Invalid choice! Try again.\n";
+        }
+
+    } while (choice != 5);
+
+    return 0;
+}
+
+
+
+8]BFS AND DFS TRAVERSAL
+
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <stack>
+using namespace std;
+
+// Function for BFS Traversal
+void BFS(vector<vector<int>> &adj, int start, int vertices) {
+    vector<bool> visited(vertices, false);
+    queue<int> q;
+
+    visited[start] = true;
+    q.push(start);
+
+    cout << "\n🔹 BFS Traversal starting from vertex " << start << ": ";
+
+    while (!q.empty()) {
+        int node = q.front();
+        q.pop();
+        cout << node << " ";
+
+        // Visit all adjacent vertices
+        for (int neighbor : adj[node]) {
+            if (!visited[neighbor]) {
+                visited[neighbor] = true;
+                q.push(neighbor);
+            }
+        }
+    }
+    cout << endl;
+}
+
+// Function for DFS Traversal (Recursive)
+void DFS_Recursive(vector<vector<int>> &adj, vector<bool> &visited, int node) {
+    visited[node] = true;
+    cout << node << " ";
+
+    for (int neighbor : adj[node]) {
+        if (!visited[neighbor]) {
+            DFS_Recursive(adj, visited, neighbor);
+        }
+    }
+}
+
+void DFS(vector<vector<int>> &adj, int start, int vertices) {
+    vector<bool> visited(vertices, false);
+    cout << "\n🔹 DFS Traversal starting from vertex " << start << ": ";
+    DFS_Recursive(adj, visited, start);
+    cout << endl;
+}
+
+int main() {
+    int vertices, edges;
+    cout << "Enter number of vertices: ";
+    cin >> vertices;
+    cout << "Enter number of edges: ";
+    cin >> edges;
+
+    vector<vector<int>> adj(vertices);
+
+    cout << "Enter edges (u v):\n";
+    for (int i = 0; i < edges; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u); // For undirected graph
+    }
+
+    int start;
+    cout << "Enter starting vertex: ";
+    cin >> start;
+
+    BFS(adj, start, vertices);
+    DFS(adj, start, vertices);
+
+    return 0;
+}
+
+
+
+
+9]OPERATION ON BINARY TREE
+
+#include <iostream>
+using namespace std;
+
+// Define a Node structure
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+};
+
+// Function to create a new node
+Node* createNode(int value) {
+    Node* newNode = new Node();
+    newNode->data = value;
+    newNode->left = newNode->right = nullptr;
+    return newNode;
+}
+
+// Insert a new node into BST
+Node* insert(Node* root, int value) {
+    if (root == nullptr) {
+        return createNode(value);
+    }
+    if (value < root->data)
+        root->left = insert(root->left, value);
+    else if (value > root->data)
+        root->right = insert(root->right, value);
+    return root;
+}
+
+// Inorder Traversal (Left, Root, Right)
+void inorder(Node* root) {
+    if (root == nullptr) return;
+    inorder(root->left);
+    cout << root->data << " ";
+    inorder(root->right);
+}
+
+// Search a value in BST
+bool search(Node* root, int key) {
+    if (root == nullptr)
+        return false;
+    if (root->data == key)
+        return true;
+    else if (key < root->data)
+        return search(root->left, key);
+    else
+        return search(root->right, key);
+}
+
+// Find minimum value in BST
+Node* findMin(Node* root) {
+    while (root && root->left != nullptr)
+        root = root->left;
+    return root;
+}
+
+// Delete a node from BST
+Node* deleteNode(Node* root, int key) {
+    if (root == nullptr)
+        return root;
+
+    if (key < root->data)
+        root->left = deleteNode(root->left, key);
+    else if (key > root->data)
+        root->right = deleteNode(root->right, key);
+    else {
+        // Node found
+        if (root->left == nullptr) {
+            Node* temp = root->right;
+            delete root;
+            return temp;
+        } else if (root->right == nullptr) {
+            Node* temp = root->left;
+            delete root;
+            return temp;
+        }
+
+        // Node with 2 children → get inorder successor
+        Node* temp = findMin(root->right);
+        root->data = temp->data;
+        root->right = deleteNode(root->right, temp->data);
+    }
+    return root;
+}
+
+int main() {
+    Node* root = nullptr;
+    int choice, value;
+
+    while (true) {
+        cout << "\n----- Binary Search Tree Menu -----\n";
+        cout << "1. Insert\n";
+        cout << "2. Search\n";
+        cout << "3. Delete\n";
+        cout << "4. Display (Inorder)\n";
+        cout << "5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter value to insert: ";
+                cin >> value;
+                root = insert(root, value);
+                break;
+            case 2:
+                cout << "Enter value to search: ";
+                cin >> value;
+                if (search(root, value))
+                    cout << value << " found in BST.\n";
+                else
+                    cout << value << " not found.\n";
+                break;
+            case 3:
+                cout << "Enter value to delete: ";
+                cin >> value;
+                root = deleteNode(root, value);
+                cout << value << " deleted (if present).\n";
+                break;
+            case 4:
+                cout << "BST Inorder Traversal: ";
+                inorder(root);
+                cout << endl;
+                break;
+            case 5:
+                cout << "Exiting...\n";
+                return 0;
+            default:
+                cout << "Invalid choice!\n";
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
